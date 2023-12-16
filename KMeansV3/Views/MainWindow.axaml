@@ -3,7 +3,9 @@
         xmlns:vm="using:KMeansV3.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        mc:Ignorable="d" 
+        d:DesignWidth="800" 
+        d:DesignHeight="450"
         x:Class="KMeansV3.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
@@ -15,6 +17,34 @@
         <vm:MainWindowViewModel/>
     </Design.DataContext>
 
-    <TextBlock Text="{Binding Greeting}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+    <Grid ColumnDefinitions="*,Auto,4*">
+        <Grid Grid.Column="0"
+              RowDefinitions="Auto,Auto,Auto,*">
+            <TextBlock Grid.Row="0"
+                       Text="Количество центров"/>
+            <TextBox Grid.Row="1"
+                     Text="{Binding NumberOfCenters}"/>
+            
+            <Grid Grid.Row="2"
+                  ColumnDefinitions="*,*">
+                <Button Grid.Column="0" 
+                        Content="KMeans"
+                        HorizontalAlignment="Stretch"/>
+                <Button Grid.Column="1" 
+                        Content="Метод косинусов"
+                        HorizontalAlignment="Stretch"/>
+            </Grid>
+            
+            <ListBox Grid.Row="3"
+                     ItemsSource="{Binding Points}"/>
+        </Grid>
+        
+        <GridSplitter Grid.Column="1"
+                      Background="Chocolate"/>
+        
+        <Grid Grid.Column="2">
+            
+        </Grid>
+    </Grid>
 
 </Window>
