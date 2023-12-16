@@ -24,8 +24,6 @@ public class MainWindowViewModel : ViewModelBase
     
     public ReactiveCommand<Unit, Unit> ComputeKMeansCommand { get; set; }
     
-    public ReactiveCommand<Unit, Unit> ComputeCosinusCommand { get; set; }
-    
 
     public MainWindowViewModel()
     {
@@ -37,7 +35,6 @@ public class MainWindowViewModel : ViewModelBase
 
     public void KMeans()
     {
-        
     }
     
     private List<ManyDimensionalPoint> ReadPointsOrCreateDefault()

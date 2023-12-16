@@ -25,15 +25,10 @@
             <TextBox Grid.Row="1"
                      Text="{Binding NumberOfCenters}"/>
             
-            <Grid Grid.Row="2"
-                  ColumnDefinitions="*,*">
-                <Button Grid.Column="0" 
-                        Content="KMeans"
-                        HorizontalAlignment="Stretch"/>
-                <Button Grid.Column="1" 
-                        Content="Метод косинусов"
-                        HorizontalAlignment="Stretch"/>
-            </Grid>
+            <Button Grid.Row="2"
+                    Content="Рассчитать"
+                    HorizontalContentAlignment="Center"
+                    HorizontalAlignment="Stretch"/>
             
             <ListBox Grid.Row="3"
                      ItemsSource="{Binding Points}"/>
