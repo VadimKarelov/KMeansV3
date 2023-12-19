@@ -9,10 +9,12 @@ public class KMeansAlghorithm
 {
     public List<double> Error { get; set; }
     
-    public IEnumerable<IEnumerable<ManyDimensionalPoint>> Points { get; set; }
+    public List<List<ManyDimensionalPoint>> Points { get; set; }
 
     public KMeansAlghorithm(IEnumerable<ManyDimensionalPoint> initPoints, int numberOfCenters)
     {
+        Error = new();
+        
         // размерность точек
         int dimension = initPoints.First().Values.Length;
         
@@ -22,16 +24,21 @@ public class KMeansAlghorithm
         var centers = new ManyDimensionalPoint[numberOfCenters];
         for (int i = 0; i < centers.Length; i++)
         {
-            centers[i] = new ManyDimensionalPoint();
+            centers[i] = new ManyDimensionalPoint()
+            {
+                Name = $"Центр {i}",
+                Values = new double[dimension]
+            };
             
             for (int j = 0; j < dimension; j++)
             {
-                centers[i].Values[j] = i + j;
+                centers[i].Values[j] = i * 5 + j;
             }
         }
 
         // распределение точек по центрам
-        var pointsToCenters = new List<ManyDimensionalPoint>[numberOfCenters];
+        var pointsToCenters = new List<List<ManyDimensionalPoint>>();
+        for (int i = 0; i < numberOfCenters; i++) pointsToCenters.Add(new());
 
         double error = 0, previousError = 0; 
         
@@ -40,7 +47,7 @@ public class KMeansAlghorithm
             previousError = error;
             
             // чистим старые расстояния до центров (удялем запись о принадлежности точек центрам)
-            for (int i = 0; i < pointsToCenters.Length; i++)
+            for (int i = 0; i < pointsToCenters.Count(); i++)
             {
                 pointsToCenters[i] = new List<ManyDimensionalPoint>();
             }
@@ -48,7 +55,7 @@ public class KMeansAlghorithm
             // раскидываем точки по ближайшим центрам
             foreach (var point in initPoints)
             {
-                var minDistance = initPoints.Min(p => p.RangeToPoint(point));
+                var minDistance = centers.Min(p => p.RangeToPoint(point));
                 var center = centers.First(c => c.RangeToPoint(point) == minDistance);
                 var index = centers.IndexOf(center);
              
@@ -59,7 +66,14 @@ public class KMeansAlghorithm
             // считаем новые координаты центров
             for (int i = 0; i < centers.Length; i++)
             {
-                centers[i] = new ManyDimensionalPoint();
+                // если точек нет, то новое расстояние до центра не считаем
+                if (!pointsToCenters[i].Any()) continue;
+
+                centers[i] = new ManyDimensionalPoint()
+                {
+                    Name = $"Центр {i}",
+                    Values = new double[dimension]
+                };
                 for (int j = 0; j < dimension; j++)
                 {
                     // считаем среднее значение каждой координаты точек, присвоенных центру
